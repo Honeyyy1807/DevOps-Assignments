@@ -1,0 +1,102 @@
+
+replicaCount: 1
+image:
+  repository: nginx
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+configmap:
+  appConfig:
+    enabled: true
+    data:
+      APP_ENV: "development"
+
+  jsonConfig:
+    enabled: true
+    data:
+      APP_ENV: "development"
+      FEATURE_FLAG: "true"
+
+
+secret:
+  enabled: true
+  data:
+    DB_PASSWORD: mysecretpassword
+
+
+nginxDeployment:
+  enabled: true
+  name: nginx-deployment
+  replicas: 3
+  image:
+    repository: nginx
+    tag: "1.23"
+  ports:
+    - containerPort: 80
+
+
+envDeployment:
+  enabled: true
+  name: env-deployment
+  replicas: 1
+  image:
+    repository: nginx
+    tag: "latest"
+  envFromConfigMap: app-config
+  envFromSecret: app-secret
+
+
+jsonDeployment:
+  enabled: true
+  name: json-config-deployment
+  replicas: 1
+  image:
+    repository: nginx
+    tag: "latest"
+  volumeMounts:
+    - name: config-volume
+      mountPath: /etc/config
+      readOnly: true
+  volumes:
+    - name: config-volume
+      configMap:
+        name: config-json
+
+service:
+  name: nginx-service
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+
+
+ingress:
+  enabled: true
+  name: nginx-ingress
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: nginx.local
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: nginx-service
+            port: 80
+
+
+statefulset:
+  enabled: true
+  name: web-stateful
+  replicas: 2
+  serviceName: web
+  image:
+    repository: nginx
+    tag: "1.23"
+  ports:
+    - containerPort: 80
+  volumeClaimTemplates:
+    - name: web-pvc
+      accessModes: ["ReadWriteOnce"]
+      storage: 1Gi
