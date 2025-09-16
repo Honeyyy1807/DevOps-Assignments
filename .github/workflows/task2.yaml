@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - github-actions-task-2
-  push:
     paths:
       - "Dockerfile"
 
