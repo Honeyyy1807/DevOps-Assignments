@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: postgres
   labels:
-    app: {{ include "generic.fullname" . }}
+    app: postgres
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -14,4 +14,4 @@ spec:
       protocol: {{ .protocol | default "TCP" }}
     {{- end }}
   selector:
-    app: {{ include "generic.fullname" . }}
+    app: postgres
