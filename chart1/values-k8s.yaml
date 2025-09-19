@@ -1,9 +1,10 @@
 secret:
-      enabled: true
-      data:
-        POSTGRES_USER: honeybhandari
-        POSTGRES_PASSWORD: honey123
-        POSTGRES_DB: permalist
+  enabled: true
+  data:
+    POSTGRES_USER: honeybhandari
+    POSTGRES_PASSWORD: honey123
+    POSTGRES_DB: permalist
+
 deployments:
   - name: backend-1
     replicaCount: 1
@@ -31,7 +32,6 @@ deployments:
       data:
         DB_HOST: postgres
         DB_PORT: "5432"
-    
 
 statefulsets:
   - name: postgres-sta
@@ -57,17 +57,17 @@ statefulsets:
       - name: POSTGRES_USER
         valueFrom:
           secretKeyRef:
-            name: {{ include "generic.fullname" $ }}
+            name: postgres-secret
             key: POSTGRES_USER
       - name: POSTGRES_PASSWORD
         valueFrom:
           secretKeyRef:
-            name: {{ include "generic.fullname" $ }}
+            name: postgres-secret
             key: POSTGRES_PASSWORD
       - name: POSTGRES_DB
         valueFrom:
           secretKeyRef:
-            name: {{ include "generic.fullname" $ }}
+            name: postgres-secret
             key: POSTGRES_DB
     
     volumeMounts:
