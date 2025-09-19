@@ -6,6 +6,7 @@ metadata:
   labels:
     app: {{ .name }}
     chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+ 
     release: {{ $.Release.Name }}
 spec:
   type: {{ .type }}
