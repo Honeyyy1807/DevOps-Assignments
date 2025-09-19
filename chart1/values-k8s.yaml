@@ -30,13 +30,13 @@ deployments:
     configmap:
       enabled: true
       data:
-        DB_HOST: postgres
+        DB_HOST: postgres-headless
         DB_PORT: "5432"
 
 statefulsets:
   - name: postgres-sta
     replicaCount: 1
-    serviceName: postgres
+    serviceName: postgres-headless
     image:
       repository: postgres
       tag: "15"
