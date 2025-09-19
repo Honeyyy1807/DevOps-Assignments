@@ -50,7 +50,6 @@ statefulsets:
         protocol: TCP
     service:
       type: ClusterIP
-      clusterIP: None
       ports:
         - name: postgres
           port: 5432
