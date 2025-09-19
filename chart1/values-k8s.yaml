@@ -8,6 +8,14 @@ secret:
     POSTGRES_PASSWORD: honey123
     POSTGRES_DB: permalist
 
+service:
+  type: ClusterIP
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
+
 deployments:
   - name: backend-1
     replicaCount: 1
@@ -33,13 +41,13 @@ deployments:
 configmap:
   enabled: true
   data:
-    DB_HOST: postgres-headless
+    DB_HOST: postgres
     DB_PORT: "5432"
 
 statefulsets:
   - name: postgres-sta
     replicaCount: 1
-    serviceName: postgres-headless
+    serviceName: postgres
     image:
       repository: postgres
       tag: "15"
@@ -48,13 +56,7 @@ statefulsets:
       - name: postgres
         containerPort: 5432
         protocol: TCP
-    service:
-      type: ClusterIP
-      ports:
-        - name: postgres
-          port: 5432
-          targetPort: 5432
-          protocol: TCP
+
     env:
       - name: POSTGRES_USER
         valueFrom:
