@@ -58,6 +58,7 @@ statefulsets:
       - name: postgres
         containerPort: 5432
         protocol: TCP
+   
     
     env:
       - name: POSTGRES_USER
