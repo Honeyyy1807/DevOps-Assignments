@@ -4,7 +4,7 @@ kind: StatefulSet
 metadata:
   name: {{ $.Release.Name }}-{{ .name }}
   labels:
-    app: {{ $.Release.Name }}-{{ .name }}
+    app: postgres
     chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
     release: {{ $.Release.Name }}
 spec:
@@ -12,11 +12,11 @@ spec:
   replicas: {{ .replicaCount }}
   selector:
     matchLabels:
-      app: {{ $.Release.Name }}-{{ .name }}
+      app: postgres
   template:
     metadata:
       labels:
-        app: {{ $.Release.Name }}-{{ .name }}
+        app: postgres
     spec:
       containers:
         - name: {{ .name }}
