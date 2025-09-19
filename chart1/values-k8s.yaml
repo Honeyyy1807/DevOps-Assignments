@@ -30,11 +30,11 @@ deployments:
           protocol: TCP
     ingress:
       enabled: false
-    configmap:
-      enabled: true
-      data:
-        DB_HOST: postgres-headless
-        DB_PORT: "5432"
+configmap:
+  enabled: true
+  data:
+    DB_HOST: postgres-headless
+    DB_PORT: "5432"
 
 statefulsets:
   - name: postgres-sta
