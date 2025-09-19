@@ -10,11 +10,12 @@ secret:
 
 
 service:
-  type: ClusterIP
+  type: NodePort
   ports:
     - name: postgres
       port: 5432
       targetPort: 5432
+      nodePort: 30032 
       protocol: TCP
 
 
