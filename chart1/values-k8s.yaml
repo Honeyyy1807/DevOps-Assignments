@@ -10,12 +10,12 @@ secret:
 
 
 service:
-      type: ClusterIP
-      ports:
-        - name: postgres
-          port: 5432
-          targetPort: 5432
-          protocol: TCP
+  type: ClusterIP
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
 
 
 deployments:
@@ -58,8 +58,8 @@ statefulsets:
       - name: postgres
         containerPort: 5432
         protocol: TCP
-   
-    
+
+
     env:
       - name: POSTGRES_USER
         valueFrom:
