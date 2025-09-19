@@ -36,7 +36,7 @@ deployments:
 statefulsets:
   - name: postgres-sta
     replicaCount: 1
-    serviceName: postgres-headless
+    serviceName: postgres
     image:
       repository: postgres
       tag: "15"
