@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - github-actions-task-2
-    # paths:
-    #   - "dockerfile"
+    paths:
+      - "dockerfile"
 
 jobs:
   build-and-push:
