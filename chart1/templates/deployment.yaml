@@ -55,9 +55,22 @@ spec:
             {{- toYaml .volumeMounts | nindent 12 }}
           {{- end }}
 
+          {{- if $.Values.configmap.enabled }}
+          volumeMounts:
+            - name: myapp-generic-chart
+              mountPath: /etc/config
+          {{- end }}
+
       {{- if .volumes }}
       volumes:
         {{- toYaml .volumes | nindent 8 }}
+      {{- end }}
+
+      {{- if $.Values.configmap.enabled }}
+      volumes:
+        - name: myapp-generic-chart
+          configMap:
+            name: {{ include "generic.fullname" $ }}
       {{- end }}
 
       {{- if .nodeSelector }}
