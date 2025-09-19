@@ -26,7 +26,7 @@ services:
       - name: http
         port: 3000
         targetPort: 3000
-        nodePort: 32080
+        nodePort: 32081
         protocol: TCP
     selector: backend-1
 
