@@ -1,65 +1,68 @@
+{{- range .Values.deployments }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "generic.fullname" . }}
+  name: {{ $.Release.Name }}-{{ .name }}
   labels:
-    app: {{ include "generic.fullname" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    release: {{ .Release.Name }}
+    app: {{ $.Release.Name }}-{{ .name }}
+    chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+    release: {{ $.Release.Name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "generic.fullname" . }}
+      app: {{ $.Release.Name }}-{{ .name }}
   template:
     metadata:
       labels:
-        app: {{ include "generic.fullname" . }}
+        app: {{ $.Release.Name }}-{{ .name }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {{ .name }}
+          image: "{{ .image.repository }}:{{ .image.tag }}"
+          imagePullPolicy: {{ .image.pullPolicy }}
 
-          {{- if .Values.command }}
-          command: {{ toYaml .Values.command | nindent 10 }}
+          {{- if .command }}
+          command: {{ toYaml .command | nindent 10 }}
           {{- end }}
 
-          {{- if .Values.args }}
-          args: {{ toYaml .Values.args | nindent 10 }}
+          {{- if .args }}
+          args: {{ toYaml .args | nindent 10 }}
           {{- end }}
 
           ports:
-            {{- range .Values.ports }}
+            {{- range .ports }}
             - name: {{ .name | default "http" }}
               containerPort: {{ .containerPort }}
               protocol: {{ .protocol | default "TCP" }}
             {{- end }}
 
-          {{- if .Values.env }}
+          {{- if .env }}
           env:
-            {{- range .Values.env }}
+            {{- range .env }}
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
           {{- end }}
 
-          {{- if .Values.resources }}
+          {{- if .resources }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .resources | nindent 12 }}
           {{- end }}
 
-          {{- if .Values.volumeMounts }}
+          {{- if .volumeMounts }}
           volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- toYaml .volumeMounts | nindent 12 }}
           {{- end }}
 
-      {{- if .Values.volumes }}
+      {{- if .volumes }}
       volumes:
-        {{- toYaml .Values.volumes | nindent 8 }}
+        {{- toYaml .volumes | nindent 8 }}
       {{- end }}
 
-      {{- if .Values.nodeSelector }}
+      {{- if .nodeSelector }}
       nodeSelector:
-        {{- toYaml .Values.nodeSelector | nindent 8 }}
+        {{- toYaml .nodeSelector | nindent 8 }}
       {{- end }}
+---
+{{- end }}

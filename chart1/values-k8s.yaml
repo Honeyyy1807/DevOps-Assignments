@@ -1,9 +1,9 @@
 secret:
       enabled: true
       data:
-        POSTGRES_USER: aG9uZXliaGFuZGFyaQ==
-        POSTGRES_PASSWORD: aG9uZXkxMjM=
-        POSTGRES_DB: cGVybWFsaXN0
+        POSTGRES_USER: honeybhandari
+        POSTGRES_PASSWORD: honey123
+        POSTGRES_DB: permalist
 deployments:
   - name: backend-1
     replicaCount: 1
@@ -57,17 +57,17 @@ statefulsets:
       - name: POSTGRES_USER
         valueFrom:
           secretKeyRef:
-            name: postgres-secret
+            name: {{ include "generic.fullname" $ }}
             key: POSTGRES_USER
       - name: POSTGRES_PASSWORD
         valueFrom:
           secretKeyRef:
-            name: postgres-secret
+            name: {{ include "generic.fullname" $ }}
             key: POSTGRES_PASSWORD
       - name: POSTGRES_DB
         valueFrom:
           secretKeyRef:
-            name: postgres-secret
+            name: {{ include "generic.fullname" $ }}
             key: POSTGRES_DB
     
     volumeMounts:
