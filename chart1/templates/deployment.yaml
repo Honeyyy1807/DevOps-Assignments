@@ -22,19 +22,6 @@ spec:
           image: "{{ .image.repository }}:{{ .image.tag }}"
           imagePullPolicy: {{ .image.pullPolicy }}
 
-          type: {{ .service.type }}
-          ports:
-            {{- range .service.ports }}
-            - name: {{ .name }}
-              port: {{ .port }}
-              targetPort: {{ .targetPort }}
-              containerPort: {{ .containerPort }}
-              {{- if .nodePort }}
-              nodePort: {{ .nodePort }}
-              {{- end }}
-              protocol: {{ .protocol | default "TCP" }}
-            {{- end }}
-
           {{- if .command }}
           command: {{ toYaml .command | nindent 10 }}
           {{- end }}
@@ -42,6 +29,13 @@ spec:
           {{- if .args }}
           args: {{ toYaml .args | nindent 10 }}
           {{- end }}
+
+          ports:
+            {{- range .ports }}
+            - name: {{ .name | default "http" }}
+              containerPort: {{ .containerPort }}
+              protocol: {{ .protocol | default "TCP" }}
+            {{- end }}
 
           {{- if .env }}
           env:
