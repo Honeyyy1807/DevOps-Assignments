@@ -1,17 +1,25 @@
+{{- range .Values.services }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: {{ $.Release.Name }}-{{ .name }}
   labels:
-    app: postgres
+    app: {{ .name }}
+    chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+    release: {{ $.Release.Name }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .type }}
   ports:
-    {{- range .Values.service.ports }}
+    {{- range .ports }}
     - name: {{ .name }}
       port: {{ .port }}
       targetPort: {{ .targetPort }}
+      {{- if .nodePort }}
+      nodePort: {{ .nodePort }}
+      {{- end }}
       protocol: {{ .protocol | default "TCP" }}
     {{- end }}
   selector:
-    app: postgres
+    app: {{ .selector }}
+---
+{{- end }}

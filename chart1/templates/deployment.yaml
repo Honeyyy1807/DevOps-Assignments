@@ -4,18 +4,18 @@ kind: Deployment
 metadata:
   name: {{ $.Release.Name }}-{{ .name }}
   labels:
-    app: {{ $.Release.Name }}-{{ .name }}
+    app: {{ .name }}
     chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
     release: {{ $.Release.Name }}
 spec:
   replicas: {{ .replicaCount }}
   selector:
     matchLabels:
-      app: {{ $.Release.Name }}-{{ .name }}
+      app: {{ .name }}
   template:
     metadata:
       labels:
-        app: {{ $.Release.Name }}-{{ .name }}
+        app: {{ .name }}
     spec:
       containers:
         - name: {{ .name }}

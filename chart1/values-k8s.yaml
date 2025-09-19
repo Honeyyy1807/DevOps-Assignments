@@ -9,14 +9,26 @@ secret:
     POSTGRES_DB: permalist
 
 
-service:
-  type: NodePort
-  ports:
-    - name: postgres
-      port: 5432
-      targetPort: 5432
-      nodePort: 30032 
-      protocol: TCP
+services:
+ 
+  - name: postgres
+    type: ClusterIP
+    ports:
+      - name: postgres
+        port: 5432
+        targetPort: 5432
+        protocol: TCP
+    selector: postgres-sta
+
+  - name: backend
+    type: NodePort
+    ports:
+      - name: http
+        port: 3000
+        targetPort: 3000
+        nodePort: 32080
+        protocol: TCP
+    selector: backend-1
 
 
 deployments:
