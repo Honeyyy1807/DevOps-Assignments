@@ -42,13 +42,6 @@ spec:
           args: {{ toYaml .args | nindent 10 }}
           {{- end }}
 
-          ports:
-            {{- range .ports }}
-            - name: {{ .name | default "http" }}
-              containerPort: {{ .containerPort }}
-              protocol: {{ .protocol | default "TCP" }}
-            {{- end }}
-
           {{- if .env }}
           env:
             {{- range .env }}
