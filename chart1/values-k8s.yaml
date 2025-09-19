@@ -12,7 +12,7 @@ secret:
 service:
       type: ClusterIP
       ports:
-        - name: postgres-headless
+        - name: postgres
           port: 5432
           targetPort: 5432
           protocol: TCP
@@ -43,13 +43,13 @@ deployments:
 configmap:
   enabled: true
   data:
-    DB_HOST: postgres-headless
+    DB_HOST: postgres
     DB_PORT: "5432"
 
 statefulsets:
   - name: postgres-sta
     replicaCount: 1
-    serviceName: postgres-headless
+    serviceName: postgres
     image:
       repository: postgres
       tag: "15"
