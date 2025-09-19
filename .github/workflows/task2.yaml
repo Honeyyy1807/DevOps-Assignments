@@ -5,7 +5,8 @@ on:
       - github-actions-task-2
     # paths:
     #   - "dockerfile"
-
+permissions:
+  contents: write
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -36,14 +37,16 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/my-app:${{ env.IMAGE_TAG }}
 
-      - name: Update Helm values.yaml
-        run: |
-          sed -i "s|tag:.*|tag: \"${IMAGE_TAG}\"|g" chart1/values.yaml
+      # - name: Update Helm values.yaml
+      #   run: |
+      #     sed -i "s|tag:.*|tag: \"${IMAGE_TAG}\"|g" chart1/values.yaml
 
-      - name: Commit Helm chart update
-        run: |
-          git config --global user.email "honey.bhandari@syvora.com"
-          git config --global user.name "Honey Bhandari"
-          git add chart1/values.yaml
-          git commit -m "Update image tag to $IMAGE_TAG"
-          git push origin HEAD:${GITHUB_REF#refs/heads/}
+      # - name: Commit Helm chart update
+      #   run: |
+      #     git config --global user.email "honey.bhandari@syvora.com"
+      #     git config --global user.name "Honey Bhandari"
+      #     git add chart1/values.yaml
+      #     git commit -m "Update image tag to $IMAGE_TAG"
+      #     git push origin HEAD:${GITHUB_REF#refs/heads/}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
